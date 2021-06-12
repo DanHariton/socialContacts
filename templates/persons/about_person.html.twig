@@ -1,0 +1,71 @@
+{% extends 'components/inside_layout.html.twig' %}
+
+{% block title %}Social Contacts | Profil osoby{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h2 class="mb-2 text-center text-gray-800"><strong class="color-primary">{{ person.lastName }} {{ person.firstName }}</strong></h2>
+        <h4 class="text-center border-bottom mb-3">Osobni info</h4>
+        <div class="row text-center">
+            <div class="col">Username:</div>
+            <div class="col"><strong class="color-primary">{{ person.nickname }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Datum narozeni:</div>
+            <div class="col"><strong class="color-primary">{{ person.birthDay|date('d.m.Y') }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Pohlavi:</div>
+            <div class="col">
+                <strong class="color-primary">
+                    {% if person.gender == constant("App\\Entity\\Person::GENDER_MALE") %}
+                        Muz
+                    {% else %}
+                        Zena
+                    {% endif %}
+                </strong>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Vyska:</div>
+            <div class="col">
+                <strong class="color-primary">
+                    {{ person.height }}
+                </strong>
+            </div>
+        </div>
+        <h4 class="text-center border-bottom mb-3 mt-4">Adresa</h4>
+        <div class="row text-center">
+            <div class="col">Stat:</div>
+            <div class="col"><strong class="color-primary">{{ person.location.country }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Mesto:</div>
+            <div class="col"><strong class="color-primary">{{ person.location.city }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Ulice:</div>
+            <div class="col"><strong class="color-primary">{{ person.location.streetName }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Číslo domu:</div>
+            <div class="col"><strong class="color-primary">{{ person.location.streetNumber }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">PSČ:</div>
+            <div class="col"><strong class="color-primary">{{ person.location.zip }}</strong></div>
+        </div>
+        <h4 class="text-center border-bottom mb-3 mt-4">Kontakty</h4>
+        {% for contact in person.contacts %}
+            <div class="row text-center">
+                <div class="col">{{ contact.contactType.name }}:</div>
+                <div class="col"><strong class="color-primary">{{ contact.contact }}</strong></div>
+            </div>
+        {% endfor %}
+        <h4 class="text-center border-bottom mb-3 mt-4">Vzťahy</h4>
+
+    </div>
+
+{% endblock %}

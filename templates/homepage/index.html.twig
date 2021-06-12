@@ -1,0 +1,24 @@
+{% extends 'app_layout.html.twig' %}
+
+{% block title %}Social Contacts | Osobný adresár{% endblock %}
+
+{% block body %}
+
+    {% include 'components/header.html.twig' %}
+
+    <main>
+        <div class="container marketing">
+
+            <!-- Three columns of text below the carousel -->
+            <div class="row mt-5">
+                <div class="col-lg text-center">
+                    <img src="{{ asset('img/homepage/logoPef.jpg') }}" class="rounded-3 w-50 mb-3" alt="PEF Mendelu">
+                    <h2 class="mt-4">Semestrálny projekt z predmetu APV</h2>
+                    <p>&copy;Kharytonov Danylo</p>
+                </div><!-- /.col-lg-4 -->
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+
+    </main>
+{% endblock %}

@@ -5,12 +5,16 @@ namespace App\Entity;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PersonRepository::class)
  */
 class Person
 {
+    const GENDER_FEMALE = 0;
+    const GENDER_MALE = 1;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -41,17 +45,21 @@ class Person
     private $location;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
     private $birthDay;
 
     /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Hodnota {{ value }} musi byt {{ type }}
+     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $height;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $gender;
 

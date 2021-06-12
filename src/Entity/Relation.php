@@ -41,7 +41,7 @@ class Relation
      * @ORM\ManyToOne(targetEntity="RelationType")
      * @ORM\JoinColumn(name="id_relation_type", referencedColumnName="id")
      */
-    private $idRelationType;
+    private $relationType;
 
 
     public function getId(): ?int
@@ -100,18 +100,18 @@ class Relation
     /**
      * @return RelationType|null
      */
-    public function getIdRelationType(): ?RelationType
+    public function getRelationType(): ?RelationType
     {
-        return $this->idRelationType;
+        return $this->relationType;
     }
 
     /**
-     * @param RelationType|null $idRelationType
+     * @param RelationType|null $relationType
      * @return Relation
      */
-    public function setIdRelationType(?RelationType $idRelationType): Relation
+    public function setRelationType(?RelationType $relationType): Relation
     {
-        $this->idRelationType = $idRelationType;
+        $this->relationType = $relationType;
         return $this;
     }
 }

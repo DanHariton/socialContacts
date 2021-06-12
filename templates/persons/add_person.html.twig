@@ -1,0 +1,39 @@
+{% extends 'components/inside_layout.html.twig' %}
+
+{% block title %}Social Contacts | Výpis osob{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="h3 mb-2 text-center text-gray-800">Nova osoba</h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="border-bottom text-center mb-3 h4">
+                        Info osoba
+                    </div>
+                    {{ form_row(form.lastName) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.nickname) }}
+                    {{ form_row(form.birthDay) }}
+                    {{ form_row(form.gender) }}
+                    {{ form_row(form.height) }}
+                    <div class="border-bottom text-center mb-3 mt-3 h4">
+                        Adresa
+                    </div>
+                    {{ form_row(form.location.country) }}
+                    {{ form_row(form.location.city) }}
+                    {{ form_row(form.location.streetName) }}
+                    {{ form_row(form.location.streetNumber) }}
+                    {{ form_row(form.location.zip) }}
+                    <div class="border-bottom text-center mb-3 mt-3 h4">
+                        Kontakty
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
