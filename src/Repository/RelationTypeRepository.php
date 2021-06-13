@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\RelationType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,21 @@ class RelationTypeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RelationType::class);
+    }
+
+    /**
+     * @param $id
+     * @return RelationType|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneById($id): ?RelationType
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
     // /**

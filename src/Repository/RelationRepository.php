@@ -19,6 +19,21 @@ class RelationRepository extends ServiceEntityRepository
         parent::__construct($registry, Relation::class);
     }
 
+    /**
+     * @param $id
+     * @return Relation[]
+     */
+    public function findById($id)
+    {
+        return $this->createQueryBuilder('r')
+            ->orWhere('r.person1 = :id')
+            ->orWhere('r.person2 = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Relation[] Returns an array of Relation objects
     //  */

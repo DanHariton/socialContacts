@@ -1,11 +1,11 @@
 {% extends 'components/inside_layout.html.twig' %}
 
-{% block title %}Social Contacts | Výpis osob{% endblock %}
+{% block title %}Social Contacts | Výpis setkani{% endblock %}
 
 
 {% block content %}
 
-    <h1 class="h3 mb-2 text-gray-800">Výpis osob</h1>
+    <h1 class="h3 mb-2 text-gray-800">Výpis setkani</h1>
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }}">
@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
     {% endfor %}
-    <a class="btn btn-sm btn-primary mb-2" href="{{ path("persons_create_person") }}">Nova osoba</a>
+    <a class="btn btn-sm btn-primary mb-2" href="{{ path("meetings_create_meeting") }}">Nove setkani</a>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Lide</h6>
@@ -23,26 +23,26 @@
                 <table class="table table-bordered text-dark data-table">
                     <thead>
                     <tr>
-                        <th>Příjmení</th>
-                        <th>Jméno</th>
-                        <th>Adresa</th>
-                        <th>Datum narození</th>
+                        <th>Datum</th>
+                        <th>Location</th>
+                        <th>Poznamka</th>
+                        <th>Ucastniky</th>
                         <th>Akce</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for person in persons %}
+                    {% for meeting in meetings %}
                         <tr>
-                            <td>{{ person.lastName }}</td>
-                            <td>{{ person.firstName }}</td>
-                            <td>{{ person.location.streetName }} {{ person.location.streetNumber }}, {{ person.location.city }}, {{ person.location.zip }}, {{ person.location.country }}</td>
-                            <td>{{ person.birthDay|date('d.m.Y') }}</td>
+                            <td>{{ meeting.start|date('d.m.Y') }}</td>
+                            <td>{{ meeting.location.streetName }} {{ meeting.location.streetNumber }}, {{ meeting.location.city }}, {{ meeting.location.zip }}, {{ meeting.location.country }}</td>
+                            <td>{{ meeting.description }}</td>
+                            <td>{{ meeting.persons|length }}</td>
                             <td>
-                                <a class="btn btn-sm btn-success mb-2" href="{{ path('persons_detail_person', {'id': person.id}) }}">Detail</a>
-                                <a class="btn btn-sm btn-primary mb-2" href="{{ path('persons_edit_person', {'id': person.id}) }}">Editovat</a>
+                                <a class="btn btn-sm btn-success mb-2" href="">Detail</a>
+                                <a class="btn btn-sm btn-primary mb-2" href="">Editovat</a>
                                 <a class="btn btn-sm btn-danger mb-2"
                                    onclick="return confirm('Сhcete osobu odebrat, jste si jisti?')"
-                                   href="{{ path('persons_delete_person', {'id': person.id}) }}">Vymazat</a>
+                                   href="">Vymazat</a>
                             </td>
                         </tr>
                     {% endfor %}

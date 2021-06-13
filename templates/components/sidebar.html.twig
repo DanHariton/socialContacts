@@ -28,8 +28,8 @@
     </li>
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {% if app.request.get('_route') starts with 'meeting_' %}active{% endif %}">
-        <a class="nav-link" href="{{ path('homepage_index') }}">
+    <li class="nav-item {% if app.request.get('_route') starts with 'meetings_' %}active{% endif %}">
+        <a class="nav-link" href="{{ path('meetings_list') }}">
             <i class="far fa-comments"></i>
             <span>Setkání</span>
         </a>

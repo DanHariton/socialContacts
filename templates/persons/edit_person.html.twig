@@ -1,16 +1,17 @@
 {% extends 'components/inside_layout.html.twig' %}
 
-{% block title %}Social Contacts | Nova osoba{% endblock %}
+{% block title %}Social Contacts | Výpis osob{% endblock %}
 
 
 {% block content %}
 
     <div class="container">
-        <h1 class="h3 mb-2 text-center text-gray-800">Nova osoba</h1>
+        <h1 class="h3 mb-2 text-center text-gray-800">Editace <strong class="color-primary">{{ person.lastName }} {{ person.firstName }}</strong></h1>
 
         <div class="card shadow mb-4">
             <div class="card-body">
-                {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_start(form) }}
                     <div class="border-bottom text-center mb-3 h4">
                         Info osoba
                     </div>
@@ -31,7 +32,23 @@
                     <div class="border-bottom text-center mb-3 mt-3 h4">
                         Kontakty
                     </div>
-                {{ form_end(form) }}
+                    {{ form_end(form) }}
+                </div>
+                <div>
+                    <div class="border-bottom-primary text-center mb-3 h4 color-primary">
+                        Pridat vztah
+                    </div>
+                    {{ form_start(formRelation) }}
+                    <div class="d-flex">
+                        <div>
+                            {{ form_row(formRelation.person2) }}
+                        </div>
+                        <div class="ml-5">
+                            {{ form_row(formRelation.relation) }}
+                        </div>
+                    </div>
+                    {{ form_end(formRelation) }}
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,24 @@
+{% extends 'components/inside_layout.html.twig' %}
+
+{% block title %}Social Contacts | Nové setkani{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="h3 mb-2 text-center text-gray-800">Nové setkani</h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    {{ form_row(form.start) }}
+                    {{ form_row(form.description) }}
+                    <div class="border-bottom text-center mb-3 mt-3 h4">
+                        Adresa
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -6,10 +6,13 @@ use App\Entity\Contact;
 use App\Entity\ContactType;
 use App\Entity\Location;
 use App\Entity\Person;
+use App\Entity\Relation;
 use App\Form\PersonCreateType;
+use App\Form\RelationAddType;
 use App\Repository\ContactTypeRepository;
 use App\Repository\PersonRepository;
 use App\Repository\RelationRepository;
+use App\Repository\RelationTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -92,6 +95,8 @@ class PersonsController extends AbstractController
      */
     public function detailPerson(Person $person, RelationRepository $relationRepository)
     {
+//        $relations = $relationRepository->findById($person->getId());
+//        dd($relations);
 
         return $this->render('persons/about_person.html.twig', [
             'person' => $person
@@ -129,24 +134,91 @@ class PersonsController extends AbstractController
      * @Route("/person/edit/{id}", name="persons_edit_person")
      * @param Person $person
      * @param EntityManagerInterface $em
-     * @param ContactTypeRepository $contactTypeRepository
      * @param Request $request
+     * @param ContactTypeRepository $contactTypeRepository
+     * @param RelationTypeRepository $relationTypeRepository
+     * @param PersonRepository $personRepository
+     * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function editPersonInfo(Person $person, EntityManagerInterface $em, Request $request,
-                                   ContactTypeRepository $contactTypeRepository)
+                                   ContactTypeRepository $contactTypeRepository, RelationTypeRepository $relationTypeRepository,
+                                   PersonRepository $personRepository)
     {
         /** @var ContactType[]|null $contactTypes */
         $contactTypes = $contactTypeRepository->findAll();
 
+        /** @var Person[]|null $persons */
+        $persons = $personRepository->findAll();
+
+        /** @var Relation[]|null $relationTypes */
+        $relationTypes = $relationTypeRepository->findAll();
+
+        $relation = new Relation();
+
+        $personContacts = $person->getContacts();
+
         foreach ($contactTypes as $contactType) {
             $contact = new Contact();
             $contact->setContactType($contactType);
-            $person->addContact($contact);
+            foreach ($personContacts as $personContact) {
+                if ($contactType->getId() != $personContact->getContactType()->getId()) {
+                    $person->addContact($contact);
+                }
+            }
+        }
+
+        foreach ($persons as $key => $value) {
+            if ($value->getId() == $person->getId()) {
+                unset($persons[$key]);
+            }
         }
 
         $form = $this->createForm(PersonCreateType::class, $person)
             ->handleRequest($request);
 
+        $formRelation = $this->createForm(RelationAddType::class, $relation, ['relationTypes' => $relationTypes, 'persons' => $persons])
+            ->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Person $person */
+            $person = $form->getData();
+
+            $location = $person->getLocation();
+            $em->persist($location);
+
+            $contacts = $person->getContacts();
+            foreach ($contacts as $contact) {
+                if (!is_null($contact->getContact())) {
+                    $em->persist($contact);
+                } else {
+                    $person->removeContact($contact);
+                }
+            }
+
+            $em->persist($person);
+            $em->flush();
+
+            $this->addFlash('success', 'Změny osobních údajů byly úspěšně uloženy');
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        if ($formRelation->isSubmitted() && $formRelation->isValid()) {
+            $relation->setPerson1($person);
+            $relation->setPerson2($personRepository->findOneById($formRelation->get('person2')->getData()));
+            $relation->setRelationType($relationTypeRepository->findOneById($formRelation->get('relation')->getData()));
+
+            $em->persist($relation);
+            $em->flush();
+
+            $this->addFlash('success', 'Změny byly úspěšně uloženy');
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        return $this->render('persons/edit_person.html.twig', [
+            'person' => $person,
+            'form' => $form->createView(),
+            'formRelation' => $formRelation->createView()
+        ]);
     }
 }
