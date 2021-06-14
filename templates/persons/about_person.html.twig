@@ -65,7 +65,18 @@
             </div>
         {% endfor %}
         <h4 class="text-center border-bottom mb-3 mt-4">Vzťahy</h4>
-
+        {% for relation in relations %}
+            <div class="row text-center">
+                <div class="col">
+                    Ma vztah <strong class="color-primary">{{ relation.relationType.name }}</strong> z
+                    {% if person.id != relation.person1.id %}
+                        <strong class="color-primary">{{ relation.person1.lastName }} {{ relation.person1.firstName }}</strong>
+                    {% else %}
+                        <strong class="color-primary">{{ relation.person2.lastName }} {{ relation.person2.firstName }}</strong>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
 {% endblock %}

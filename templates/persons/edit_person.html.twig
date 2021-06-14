@@ -1,6 +1,6 @@
 {% extends 'components/inside_layout.html.twig' %}
 
-{% block title %}Social Contacts | Výpis osob{% endblock %}
+{% block title %}Social Contacts | Editace osoby{% endblock %}
 
 
 {% block content %}
@@ -8,6 +8,13 @@
     <div class="container">
         <h1 class="h3 mb-2 text-center text-gray-800">Editace <strong class="color-primary">{{ person.lastName }} {{ person.firstName }}</strong></h1>
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message|trans() }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="mb-3">

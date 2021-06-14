@@ -3,7 +3,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path("homepage_index") }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-sms"></i>
+            <i class="fas fa-address-card"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Osobný adresár</div>
     </a>
@@ -14,7 +14,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {% if app.request.get('_route') starts with 'homepage_' %}active{% endif %}">
         <a class="nav-link" href="{{ path('homepage_index') }}">
-            <i class="far fa-comments"></i>
+            <i class="fas fa-home"></i>
             <span>Domov</span>
         </a>
     </li>
@@ -22,7 +22,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {% if app.request.get('_route') starts with 'persons_' %}active{% endif %}">
         <a class="nav-link" href="{{ path('persons_list_index') }}">
-            <i class="far fa-comments"></i>
+            <i class="fas fa-users"></i>
             <span>Osoby</span>
         </a>
     </li>
@@ -30,7 +30,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {% if app.request.get('_route') starts with 'meetings_' %}active{% endif %}">
         <a class="nav-link" href="{{ path('meetings_list') }}">
-            <i class="far fa-comments"></i>
+            <i class="fas fa-users"></i>
             <span>Setkání</span>
         </a>
     </li>

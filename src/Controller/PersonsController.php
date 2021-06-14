@@ -14,6 +14,7 @@ use App\Repository\PersonRepository;
 use App\Repository\RelationRepository;
 use App\Repository\RelationTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,11 +96,11 @@ class PersonsController extends AbstractController
      */
     public function detailPerson(Person $person, RelationRepository $relationRepository)
     {
-//        $relations = $relationRepository->findById($person->getId());
-//        dd($relations);
+        $relations = $relationRepository->findById($person->getId());
 
         return $this->render('persons/about_person.html.twig', [
-            'person' => $person
+            'person' => $person,
+            'relations' => $relations
         ]);
     }
 
@@ -139,7 +140,7 @@ class PersonsController extends AbstractController
      * @param RelationTypeRepository $relationTypeRepository
      * @param PersonRepository $personRepository
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function editPersonInfo(Person $person, EntityManagerInterface $em, Request $request,
                                    ContactTypeRepository $contactTypeRepository, RelationTypeRepository $relationTypeRepository,
@@ -161,10 +162,15 @@ class PersonsController extends AbstractController
         foreach ($contactTypes as $contactType) {
             $contact = new Contact();
             $contact->setContactType($contactType);
+            $flag = false;
             foreach ($personContacts as $personContact) {
-                if ($contactType->getId() != $personContact->getContactType()->getId()) {
-                    $person->addContact($contact);
+                if ($contactType->getId() == $personContact->getContactType()->getId()) {
+                    $flag = true;
+                    break;
                 }
+            }
+            if (!$flag) {
+                $person->addContact($contact);
             }
         }
 
@@ -204,6 +210,16 @@ class PersonsController extends AbstractController
         }
 
         if ($formRelation->isSubmitted() && $formRelation->isValid()) {
+
+            $contacts = $person->getContacts();
+            foreach ($contacts as $contact) {
+                if (!is_null($contact->getContact())) {
+                    $em->persist($contact);
+                } else {
+                    $person->removeContact($contact);
+                }
+            }
+
             $relation->setPerson1($person);
             $relation->setPerson2($personRepository->findOneById($formRelation->get('person2')->getData()));
             $relation->setRelationType($relationTypeRepository->findOneById($formRelation->get('relation')->getData()));

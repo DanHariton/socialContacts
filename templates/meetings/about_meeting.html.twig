@@ -1,0 +1,53 @@
+{% extends 'components/inside_layout.html.twig' %}
+
+{% block title %}Social Contacts | Detail setkani{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h4 class="text-center border-bottom mb-3">Detail setkani</h4>
+        <div class="row text-center">
+            <div class="col">Description:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.description }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Datum:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.start|date('d.m.Y') }}</strong></div>
+        </div>
+        <h4 class="text-center border-bottom mb-3 mt-4">Adresa</h4>
+        <div class="row text-center">
+            <div class="col">Stat:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.location.country }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Mesto:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.location.city }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Ulice:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.location.streetName }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">Číslo domu:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.location.streetNumber }}</strong></div>
+        </div>
+        <div class="row text-center">
+            <div class="col">PSČ:</div>
+            <div class="col"><strong class="color-primary">{{ meeting.location.zip }}</strong></div>
+        </div>
+        <h4 class="text-center border-bottom mb-3 mt-4">Ucastniky</h4>
+        {% if meeting.persons|length == 0 %}
+            <div class="row text-center">
+                <div class="col">Zadny ucastnik neni prihlasen na toto setkani</div>
+            </div>
+        {% else %}
+            {% for person in meeting.persons %}
+                <div class="row text-center">
+                    <div class="col"><strong class="color-primary">{{ person.lastName }} {{ person.firstName }}</strong></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+{% endblock %}

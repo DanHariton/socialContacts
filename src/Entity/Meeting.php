@@ -142,7 +142,7 @@ class Meeting
      * @param Person $person
      * @return $this
      */
-    public function addMeeting($person): self
+    public function addPerson($person): self
     {
         if (!$this->persons->contains($person)) {
             $this->persons[] = $person;
@@ -155,7 +155,7 @@ class Meeting
      * @param Person $person
      * @return $this
      */
-    public function removeMeeting($person): self
+    public function removePerson($person): self
     {
         $this->persons->removeElement($person);
 

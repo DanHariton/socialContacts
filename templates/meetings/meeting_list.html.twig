@@ -38,11 +38,11 @@
                             <td>{{ meeting.description }}</td>
                             <td>{{ meeting.persons|length }}</td>
                             <td>
-                                <a class="btn btn-sm btn-success mb-2" href="">Detail</a>
-                                <a class="btn btn-sm btn-primary mb-2" href="">Editovat</a>
+                                <a class="btn btn-sm btn-success mb-2" href="{{ path('meetings_detail_meeting', {'id': meeting.id}) }}">Detail</a>
+                                <a class="btn btn-sm btn-primary mb-2" href="{{ path('meetings_edit_meeting', {'id': meeting.id}) }}">Editovat</a>
                                 <a class="btn btn-sm btn-danger mb-2"
                                    onclick="return confirm('Сhcete osobu odebrat, jste si jisti?')"
-                                   href="">Vymazat</a>
+                                   href="{{ path('meetings_delete_meeting', {'id': meeting.id}) }}">Vymazat</a>
                             </td>
                         </tr>
                     {% endfor %}
