@@ -50,10 +50,6 @@ class Person
     private $birthDay;
 
     /**
-     * @Assert\Type(
-     *     type="integer",
-     *     message="Hodnota {{ value }} musi byt {{ type }}
-     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $height;
@@ -157,15 +153,21 @@ class Person
         return $this;
     }
 
-    public function getHeight(): ?int
+    /**
+     * @return mixed
+     */
+    public function getHeight()
     {
         return $this->height;
     }
 
-    public function setHeight(?int $height): self
+    /**
+     * @param mixed $height
+     * @return Person
+     */
+    public function setHeight($height)
     {
         $this->height = $height;
-
         return $this;
     }
 
